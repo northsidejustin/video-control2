@@ -91,7 +91,7 @@
 
 .container .scrubber {
   border: none;
-  border-radius: 3px;
+  border-radius: 0;
   height: 6px;
   background: white;
   position: relative;
@@ -108,11 +108,15 @@
 }
 
 .container .ui-slider-range {
-  background: grey;
+  border-radius: 0;
+  background: #ccc;
 }
 
 .container .volume {
-  width: 15%;
+  width: 0;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
   margin-right: 1em;
 }
 
@@ -123,11 +127,17 @@
   margin-right: 0.8em;
 }
 
+.container .playback .ui-slider-handle {
+  -webkit-transition: opacity 0.1s;
+  transition: opacity 0.1s;
+  opacity: 0;
+}
+
 .container .ui-slider-handle {
   width: 16px;
   height: 16px;
   border: none;
-  background: white;
+  background: #ccc;
   cursor: pointer;
   outline: none;
   border-radius: 50%;

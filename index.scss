@@ -66,7 +66,7 @@
 
     .scrubber{
         border: none;
-        border-radius: 3px;
+        border-radius: 0;
         height: 6px;
         background: white;
         position: relative;
@@ -82,21 +82,28 @@
         }
     }
     .ui-slider-range{
-        background: grey;
+        border-radius: 0;
+        background: #ccc;
     }
     .volume{
-        width: 15%;
+        width: 0;
+        opacity: 0;
+        transition: all 0.3s;
         margin-right: 1em;
     }
     .playback{
         flex: 2 1 0%;
         margin-right:0.8em;
+        .ui-slider-handle{
+            transition: opacity 0.1s;
+            opacity: 0;
+        }
     }
     .ui-slider-handle{
         width: 16px;
         height: 16px;
         border: none;
-        background: white;
+        background: #ccc;
         cursor: pointer;
         outline: none;
         border-radius:50%;

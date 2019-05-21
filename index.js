@@ -15,6 +15,8 @@ const video = Class('video')
 const panel = Class('panel')
 const playButton = Class('play')
 const muteButton = Class('mute')
+const volumeScrub = Class('volume')
+const playbackScrub = Class('playback')
 const timeIndicator = Class('time-indicator')
 const fullscreenButton = Class('fullscreen')
 const playButtonMiddle = Class('playbutton-middle')
@@ -58,6 +60,7 @@ $('.playback').slider({
     create: function(e, ui){},
     slide: function(e, ui){
       video.currentTime = ui.value/10000 * video.duration
+      calculateDuration()
     }
 })
 
@@ -73,6 +76,9 @@ function calculateDuration(){
   }
   if(total > 0){
     timeIndicator.textContent = `${minutes}:${seconds}`
+  }
+  if(total == 0){
+    timeIndicator.textContent = `00:00`
   }
 }
 
@@ -166,6 +172,7 @@ function showRefreshButton(){
   playButton.innerHTML = refreshIcon
   playButtonMiddle.style.opacity = 1
 }
+
 let delay
 function hideControlPanel(){
   if(!video.paused){
@@ -173,6 +180,8 @@ function hideControlPanel(){
       panel.style.bottom = '-30px'
       panel.style.opacity = 0
       panel.style.pointerEvents = 'none'
+      hidePlaybackHandle()
+      hideVolumeScrub()
     }, 2000);
   }
 }
@@ -182,12 +191,35 @@ function showControlPanel(){
   panel.style.bottom = '6px'
   panel.style.opacity = 1
 }
+
+function showPlaybackHandle(){
+  document.querySelector('.playback .ui-slider-handle').style.opacity = 1
+}
+
+function showVolumeScrub(){
+  volumeScrub.style.opacity = 1;
+  volumeScrub.style.width = '15%'
+}
+
+function hideVolumeScrub(){
+  setTimeout(() => {
+    volumeScrub.style.opacity = 0;
+    volumeScrub.style.width = 0
+  }, 200);
+}
+
+function hidePlaybackHandle(){
+  document.querySelector('.playback .ui-slider-handle').style.opacity = 0
+}
+
 video.addEventListener('loadedmetadata', calculateDuration)
 video.addEventListener('timeupdate', updateProgressBar)
 video.addEventListener('ended', showRefreshButton)
 video.addEventListener('click', togglePlay)
 player.addEventListener('mouseout', hideControlPanel)
 player.addEventListener('mouseover', showControlPanel)
+playbackScrub.addEventListener('mouseover', showPlaybackHandle)
 playButton.addEventListener('click', togglePlay)
 muteButton.addEventListener('click', toggleMute)
+muteButton.addEventListener('mouseover', showVolumeScrub)
 fullscreenButton.addEventListener('click', toggleFullScreen)
